@@ -117,7 +117,7 @@ else:
             else "🟩"
         )
         estado = "✅ Completada" if t["completed"] else "⏳ Pendiente"
-           with st.expander(f"{color} {t['title']} — {estado}", expanded=False):
+        with st.expander(f"{color} {t['title']} — {estado}", expanded=False, key=f"exp_{t['id']}"):
             st.markdown(f"**Categoría:** {st.session_state.categories[t['category']]['name']}")
             st.markdown(f"**Responsable:** {t['responsible'] or 'No asignado'}")
             st.markdown(f"**Fecha límite:** {t['deadline']}")
