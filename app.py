@@ -117,26 +117,27 @@ else:
             else "🟩"
         )
         estado = "✅ Completada" if t["completed"] else "⏳ Pendiente"
-       with st.expander(f"{color} {t['title']} — {estado}", expanded=False):
+
+        with st.expander(f"{color} {t['title']} — {estado}", expanded=False):
             st.markdown(f"**Categoría:** {st.session_state.categories[t['category']]['name']}")
             st.markdown(f"**Responsable:** {t['responsible'] or 'No asignado'}")
             st.markdown(f"**Fecha límite:** {t['deadline']}")
             st.markdown(f"**Notas:** {t['notes'] or '-'}")
 
-            cols = st.columns([1, 1])
+            cols = st.columns([1, 1, 1])
             with cols[0]:
-                if not t["completed"]:
-                    if st.button("✅ Completar", key=f"done_{t['id']}"):
-                        t["completed"] = True
-                        guardar_tareas()
-                        st.toast(f"Tarea '{t['title']}' completada ✅")
-                        st.experimental_rerun()
+                if st.button(f"✅ Completar {t['id']}", key=f"done_{t['id']}"):
+                    t["completed"] = True
+                    guardar_tareas()
+                    st.success(f"Tarea '{t['title']}' marcada como completada.")
+                    st.rerun()
+
             with cols[1]:
-                if st.button("🗑️ Eliminar", key=f"del_{t['id']}"):
+                if st.button(f"🗑️ Eliminar {t['id']}", key=f"del_{t['id']}"):
                     st.session_state.tasks = [x for x in st.session_state.tasks if x["id"] != t["id"]]
                     guardar_tareas()
-                    st.toast(f"Tarea '{t['title']}' eliminada 🗑️")
-                    st.experimental_rerun()
+                    st.warning(f"Tarea '{t['title']}' eliminada.")
+                    st.rerun()
 
 # --- Exportar CSV ---
 if st.button("📤 Exportar a CSV"):
@@ -146,5 +147,6 @@ if st.button("📤 Exportar a CSV"):
         st.download_button("Descargar archivo CSV", csv, "tareas.csv", "text/csv")
     else:
         st.warning("No hay tareas para exportar.")
+
 
 
