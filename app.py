@@ -117,7 +117,7 @@ else:
             else "🟩"
         )
         estado = "✅ Completada" if t["completed"] else "⏳ Pendiente"
-        with st.expander(f"{color} {t['title']} — {estado}", expanded=False, key=f"exp_{t['id']}"):
+           with st.expander(f"{color} {t['title']} — {estado}", expanded=False):
             st.markdown(f"**Categoría:** {st.session_state.categories[t['category']]['name']}")
             st.markdown(f"**Responsable:** {t['responsible'] or 'No asignado'}")
             st.markdown(f"**Fecha límite:** {t['deadline']}")
@@ -146,3 +146,4 @@ if st.button("📤 Exportar a CSV"):
         st.download_button("Descargar archivo CSV", csv, "tareas.csv", "text/csv")
     else:
         st.warning("No hay tareas para exportar.")
+
